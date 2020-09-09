@@ -1,0 +1,240 @@
+description:
+  author:
+    title: Fluid Numerics LLC
+    descriptionHtml: >
+      Fluid Numerics is a Boulder, CO based team with backgrounds in Scientific
+      & High Performance Computing and Cloud-HPC solutions design & engineering.
+      We strive to deliver highly flexible and scalable cloud solutions to meet
+      the compute demands to accelerate research and time-to-science.
+      https://www.fluidnumerics.com
+    shortDescription: 'This is a short partner description, with at most 300 characters'
+    url: 'https://www.fluidnumerics.com'
+  descriptionHtml: >-
+    Fluid Numerics' Slurm-GCP (fluid-slurm-gcp) is a scalable imaged-based HPC
+    cluster powered  by the Slurm job scheduler and Google Cloud Platform. The
+    Fluid-Slurm-GCP deployment delivers the look-and-feel of a traditional HPC
+    environment with login nodes for user access, a controller node to host the
+    Slurm Job Scheduler, the ability to mount remote NFS & Lustre filesystems
+    and GCS Buckets, and elastic compute nodes that are created on-demand. Fluid
+    Numerics has developed and provided the cluster-services CLI to help you
+    easily customize your compute partitions and spread your workloads across
+    Google Datacenters worldwide. Newer features of the Fluid-Slurm-GCP cluster
+    include the ability to use CloudSQL to host the Slurm database and natural
+    integrations with GSuite's SMTP Email Relay so that you can be notified via
+    email when jobs complete.
+  logo: '@media/Slurm-GCP_store.png'
+  tagline: A flexible and scalable HPC cluster powered by Slurm and GCP.
+  title: Fluid-Slurm-GCP
+  url: 'https://help.fluidnumerics.com/slurm-gcp'
+  version: 2.4.0
+  eulaUrl: 'https://help.fluidnumerics.com/slurm-gcp/eula'
+  softwareGroups:
+    - type: SOFTWARE_GROUP_OS
+      software:
+        - title: CentOS
+          version: '7.7'
+    - software:
+        - title: Slurm
+          version: '20.02'
+          url: 'https://github.com/SchedMD/slurm'
+        - title: Singularity
+          version: 3.2.1
+          url: 'https://github.com/sylabs/singularity'
+        - title: Spack
+          version: 0.12.1
+          url: 'https://github.com/spack/spack'
+        - title: Lustre-Client
+          url: 'http://lustre.org/'
+        - title: Manage Hyperthreading
+          url: 'https://github.com/WyattGorman/Manage_Hyperthreading.sh'
+        - title: Environment Modules
+          url: 'https://github.com/cea-hpc/modules'
+        - title: Nvidia GPU Drivers
+          version: '10.1'
+  documentations:
+    - title: Getting Started
+      url: 'https://fluid-slurm-gcp-codelabs.web.app/create-a-hpc-cluster-on-gcp/'
+      description: Getting Started Codelab.
+      destinations:
+        - DESTINATION_CONFIGURATION
+    - title: Codelabs
+      url: 'https://help.fluidnumerics.com/slurm-gcp/codelabs'
+      description: A set of codelabs to help you get oriented with fluid-slurm-gcp
+      destinations:
+        - DESTINATION_POST_DEPLOY
+        - DESTINATION_CONFIGURATION
+    - title: Using cluster-services
+      url: >-
+        https://help.fluidnumerics.com/slurm-gcp/documentation/cluster-services-cli
+      description: >-
+        Learn how to update compute partitions, external mounts, and slurm
+        users.
+      destinations:
+        - DESTINATION_POST_DEPLOY
+  support:
+    - title: Support
+      descriptionHtml: >-
+        Fluid Numerics specializes in customizing and integrating boutique
+        solutions that fit your HPC and scientific computing needs. Reach out to
+        us for support with Slurm-GCP, hybrid cloud computing, HPC software
+        profiling, GPU porting, and performance tuning, HPC application
+        containerization,  and organization workflow development.
+      showSupportId: true
+      url: 'https://help.fluidnumerics.com/support'
+input:
+  properties:
+    - name: zone
+      title: Zone
+      subtext: >-
+        GPU availability is limited to certain zones. <a
+        href="https://cloud.google.com/compute/docs/gpus">Learn more</a>
+    - name: network_network
+      title: Network name
+      section: NETWORK_TIER
+    - name: network_subnetwork
+      title: Subnetwork name
+      section: NETWORK_TIER
+    - name: network_externalIP
+      title: External IP
+      tooltip: >-
+        An external IP address associated with this instance. Selecting "None"
+        will result in the instance having no external internet access. <a
+        href="https://cloud.google.com/compute/docs/configure-instance-ip-addresses">Learn
+        more</a>
+      section: NETWORK_TIER
+    - name: login_instanceCount
+      title: Instance Count
+      tooltip: Specify a value between 1 and 10.
+      section: LOGIN_TIER
+    - name: login_machineType
+      title: Machine type
+      section: LOGIN_TIER
+    - name: login_bootDiskType
+      title: Boot Disk type
+      section: LOGIN_TIER
+    - name: login_bootDiskSizeGb
+      title: Boot Disk size in GB
+      section: LOGIN_TIER
+    - name: controller_machineType
+      title: Machine type
+      section: CONTROLLER_TIER
+    - name: controller_bootDiskType
+      title: Boot Disk type
+      section: CONTROLLER_TIER
+    - name: controller_bootDiskSizeGb
+      title: Boot Disk size in GB
+      section: CONTROLLER_TIER
+    - name: input_partitionName
+      title: Partition Name
+      tooltip: >-
+        The partition name is what you will find when running the `sinfo`
+        command on the slurm cluster.
+      validation: 'regex pattern: [a-z]([-a-z0-9]*[a-z0-9])'
+      section: COMPUTE_TIER
+    - name: input_staticNodeCount
+      title: Static Node Count
+      tooltip: >-
+        Static compute nodes are created with the deployment and are not
+        automatically torn down by Slurm.
+      validation: >-
+        Set the number of static nodes for the default partition, between 0 and
+        1000.
+      section: COMPUTE_TIER
+    - name: input_maxNodeCount
+      title: Max Node Count
+      tooltip: >-
+        Each compute partition can burst up to the Max Node Count (up to 1000
+        nodes per partition) with ephemeral compute nodes.
+      validation: >-
+        Set the max number of compute nodes for the default partition, between 0
+        and 1000.
+      section: COMPUTE_TIER
+    - name: compute_machineType
+      title: Machine type
+      section: COMPUTE_TIER
+    - name: compute_acceleratorType
+      title: GPUs
+      section: COMPUTE_TIER
+    - name: compute_bootDiskType
+      title: Boot Disk type
+      section: COMPUTE_TIER
+    - name: compute_bootDiskSizeGb
+      title: Boot Disk size in GB
+      section: COMPUTE_TIER
+    - name: compute_externalIP
+      title: External IP
+      tooltip: >-
+        An external IP address associated with this instance. Selecting "None"
+        will result in the instance having no external internet access. <a
+        href="https://cloud.google.com/compute/docs/configure-instance-ip-addresses">Learn
+        more</a>
+      section: COMPUTE_TIER
+    - name: input_n_local_ssds
+      title: Number of Local SSDs
+      level: 1
+      tooltip: >-
+        Specify the number of local SSDs to attach to compute nodes in this
+        partition.  Each local SSD is 375 GB in size. See
+        https://cloud.google.com/compute/docs/disks/local-ssd   for more
+        information on local SSDs.
+      validation: Value must be between 0 and 8 (inclusive).
+      section: COMPUTE_TIER
+    - name: input_local_ssd_mount_directory
+      title: Scratch Directory
+      level: 1
+      tooltip: 'Specify the path where local SSDs should be mounted. '
+      section: COMPUTE_TIER
+    - name: input_maxWallTime
+      title: Max Wall Time
+      level: 1
+      tooltip: >-
+        The max wall time specifies the maximum allowable wall-clock time for a
+        slurm resource allocation in this partition. The default value is
+        INFINITE. You can set the max wall time to any integer number of seconds
+        greater than 0.
+      validation: >-
+        Specify a max wall time. Either INFINITE or any integer number of
+        seconds greater than 0.
+      section: COMPUTE_TIER
+    - name: input_disableHyperthreading
+      title: Disable Hyperthreading
+      level: 1
+      section: COMPUTE_TIER
+    - name: input_preemptibleBursting
+      title: Preembtible Bursting
+      level: 1
+      section: COMPUTE_TIER
+  sections:
+    - name: NETWORK_TIER
+      title: Network
+    - name: LOGIN_TIER
+      title: Slurm Login Node
+    - name: CONTROLLER_TIER
+      title: Slurm Controller Node
+    - name: COMPUTE_TIER
+      title: Slurm Default Compute Partition
+runtime:
+  deployingMessage: Deployment can take several minutes to complete.
+  applicationTable:
+    rows:
+      - label: Login Name
+        value: '{{ outputs()["login_vmName" + 0] }}'
+      - label: Login Address
+        value: '{{ outputs()["login_vmExternalIP" + 0] }}'
+      - label: Controller Name
+        value: '{{ outputs()["controller_vmName" + 0] }}'
+      - label: Controller Address
+        value: '{{ outputs()["controller_vmExternalIP" + 0] }}'
+      - label: Zone
+        value: '{{ properties().zone }}'
+  primaryButton:
+    label: SSH
+    type: TYPE_GCE_VM_SSH
+    action: '{{ outputs()["login_vmSelfLink" + 0] }}'
+  suggestedActions:
+    - heading: Add Slurm Users
+      description: ssh into the login node and add slurm users
+      snippet: sudo -i cluster-services add user USERNAME
+annotations:
+  autogenSpecType: MULTI_VM
+metadata_version: v1
