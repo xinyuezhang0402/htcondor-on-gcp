@@ -1,0 +1,138 @@
+description:
+  author:
+    title: Google Click to Deploy
+    descriptionHtml: Popular open stacks on Google Compute Engine packaged by Google.
+    shortDescription: Popular open stacks on Google Compute Engine packaged by Google.
+    url: https://cloud.google.com/solutions/#click-to-deploy
+  descriptionHtml: HTCondor provides a high-throughput job scheduling and management that is commonly used in the scientific computing space to execute large numbers of batch jobs on a large number of compute nodes. Users submit jobs to the scheduler that then matches the job requirements to available compute nodes and schedules the jobs on appropriate nodes in the pool.
+  logo: '@media/htcondor-on-gcp_store.png'
+  tagline: A flexible and scalable HPC cluster, managed by Google.
+  title: HTCondor on GCP
+  url: https://research.cs.wisc.edu/htcondor/
+  version: 1.0.0
+  softwareGroups:
+  - type: SOFTWARE_GROUP_OS
+    software:
+    - title: CentOs
+      version: '7'
+  - software:
+    - title: HTCondor
+      version: 8.8.1
+    - title: Docker
+      version: 19.03.12
+    - title: Python
+      version: 2.7.5
+  documentations:
+  - title: HTCondor on GCP Documentation
+    url: https://github.com/GoogleCloudPlatform/deploymentmanager-samples/blob/master/examples/v2/htcondor/README.md
+    destinations:
+    - DESTINATION_SOLUTION_DETAILS
+    - DESTINATION_POST_DEPLOY
+  support:
+  - title: Support
+    descriptionHtml: Google does not offer support for this solution. However, community support is available on <a href="https://research.cs.wisc.edu/htcondor/mail-lists/"> email lists</a> .
+
+input:
+  properties:
+    - name: zone
+      title: Zone
+      subtext: 'GPU availability is limited to certain zones. <a href="https://cloud.google.com/compute/docs/gpus">Learn more</a>'
+    - name: network_network
+      title: Network name
+      section: NETWORK_TIER
+    - name: network_subnetwork
+      title: Subnetwork name
+      section: NETWORK_TIER
+    - name: network_externalIP
+      title: External IP
+      tooltip: 'An external IP address associated with this instance. Selecting "None" will result in the instance having no external internet access. <a href="https://cloud.google.com/compute/docs/configure-instance-ip-addresses">Learn more</a>'
+      section: NETWORK_TIER
+
+    - name: submit_instanceCount
+      title: Instance Count
+      tooltip: Specify a value between 1 and 5.
+      section: SUBMIT_TIER
+    - name: submit_machineType
+      title: Machine type
+      section: SUBMIT_TIER
+    - name: submit_bootDiskType
+      title: Boot disk type
+      section: SUBMIT_TIER
+    - name: submit_bootDiskSizeGb
+      title: Boot disk size in GB
+      section: SUBMIT_TIER
+
+    - name: master_instanceCount
+      title: Instance Count
+      section: MASTER_TIER
+    - name: master_machineType
+      title: Machine type
+      section: MASTER_TIER
+    - name: master_bootDiskType
+      title: Boot disk type
+      section: MASTER_TIER
+    - name: master_bootDiskSizeGb
+      title: Boot disk size in GB
+      section: MASTER_TIER
+
+    - name: compute_instanceCount
+      title: Instance Count
+      tooltip: Specify a value between 1 and 20.
+      section: COMPUTE_TIER
+    - name: compute_machineType
+      title: Machine type
+      section: COMPUTE_TIER
+    - name: compute_acceleratorType
+      title: GPUs
+      section: COMPUTE_TIER
+    - name: compute_bootDiskType
+      title: Boot disk type
+      section: COMPUTE_TIER
+    - name: compute_bootDiskSizeGb
+      title: Boot disk size in GB
+      section: COMPUTE_TIER
+
+    - name: input_adminEmailAddress
+      title: Administrator e-mail address
+      tooltip: The e-mail address that condor will send email to when something goes wrong in your condor pool.
+      validation: Please enter a valid email address
+      placeholder: user@example.com
+    - name: enableStackdriverLogging
+      title: Enable Stackdriver Logging
+      tooltip: 'Stackdriver Logging allows you to store, search, analyze, monitor, and alert on log data and events. <a href="https://cloud.google.com/logging/">Learn more</a>'
+      section: STACKDRIVER
+    - name: enableStackdriverMonitoring
+      title: Enable Stackdriver Monitoring
+      tooltip: 'Stackdriver Monitoring provides visibility into the performance, uptime, and overall health of cloud-powered applications. <a href="https://cloud.google.com/monitoring/">Learn more</a>'
+      section: STACKDRIVER
+  sections:
+    - name: NETWORK_TIER
+      title: Network
+    - name: SUBMIT_TIER
+      title: Condor Submit
+    - name: MASTER_TIER
+      title: Condor Master
+    - name: COMPUTE_TIER
+      title: Condor Compute
+    - name: STACKDRIVER
+      title: Stackdriver
+      subtext: Monitoring and management for services, containers, applications, and infrastructure
+
+runtime:
+  deployingMessage: Deployment can take several minutes to complete.
+  applicationTable:
+    rows:
+      - label: Zone
+        value: '{{ properties().zone }}'
+  suggestedActions:
+    - heading: No external IP configured on any tier
+      description: 'All VM instances have been configured with no external IP or internet access. Connecting to them directly may not be possible. Consider using a <a href="https://cloud.google.com/compute/docs/instances/connecting-advanced#bastion_host">bastion host</a> to access these VMs.'
+      showIf: "{{ outputs().tiersWithNoExternalIPStatus == 'ALL' }}"
+    - heading: No external IP configured on some tiers
+      description: 'Some VM instances have been configured with no external IP or internet access. Connecting to them directly may not be possible. Consider using a <a href="https://cloud.google.com/compute/docs/instances/connecting-advanced#bastion_host">bastion host</a> to access these VMs.'
+      showIf: "{{ outputs().tiersWithNoExternalIPStatus == 'SOME' }}"
+
+annotations:
+  autogenSpecType: 'MULTI_VM'
+
+metadata_version: v1

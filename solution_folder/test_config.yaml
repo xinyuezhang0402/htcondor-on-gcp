@@ -1,0 +1,9 @@
+imports:
+- path: htcondor-on-gcp.jinja
+
+resources:
+- name: htcondor-on-gcp
+  type: htcondor-on-gcp.jinja
+  properties:
+    input_adminEmailAddress: someone@example.com
+    zone: us-central1-f

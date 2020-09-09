@@ -1,0 +1,28 @@
+{namespace vm.multi}
+
+/** Generates top level template solution.jinja file. */
+{template .test_config kind="text"}
+{@param solutionId: string}
+{@param spec: cloud.deploymentmanager.autogen.MultiVmDeploymentPackageSpec}
+
+{let $template: $solutionId + '.jinja'/}
+
+imports:
+- path: {$template}
+{\n}
+resources:
+- name: {$solutionId}
+  type: {$template}
+
+  {let $testDefaultedFields: $spec.deployInput ? findInputsWithTestDefaultValues($spec.deployInput) : [] /}
+  {let $defaultMap: getTestConfigDefaultValues($spec)/}
+  {if length($testDefaultedFields) > 0 or length(mapKeys($defaultMap)) > 0}
+  properties:
+  {for $field in $testDefaultedFields}
+    {deployInputFieldName($field) |yamlprimitive: 4}: {findInputTestDefaultValue($field) |yamlprimitive: 4}
+  {/for}
+  {for $key in mapKeys($defaultMap)}
+    {$key |yamlprimitive: 4}: {$defaultMap[$key] |yamlprimitive: 4}
+  {/for}
+  {/if}
+{/template}

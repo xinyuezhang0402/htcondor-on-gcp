@@ -1,0 +1,8 @@
+imports:
+- path: wordpress.jinja
+
+resources:
+- name: wordpress
+  type: wordpress.jinja
+  properties:
+    zone: us-central1-f

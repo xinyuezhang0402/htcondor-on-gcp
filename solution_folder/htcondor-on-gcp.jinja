@@ -1,0 +1,146 @@
+{% import "path_utils.jinja" as path_utils with context %}
+
+{% set allTiersCount = 4 %}
+{% set tiersWithNoExternalIPCount = 0 %}
+{% set network_externalIPs = properties["network_externalIP"] %}
+{% if network_externalIPs and network_externalIPs[0] == "NONE" %}
+{% set tiersWithNoExternalIPCount = tiersWithNoExternalIPCount + 1 %}
+{% endif %}
+{% set network_mainNetwork = path_utils.networkPath(properties["network_network"][0]) %}
+{% set submit_externalIPs = properties["submit_externalIP"] %}
+{% if submit_externalIPs and submit_externalIPs[0] == "NONE" %}
+{% set tiersWithNoExternalIPCount = tiersWithNoExternalIPCount + 1 %}
+{% endif %}
+{% set submit_mainNetwork = path_utils.networkPath(properties["network_network"][0]) %}
+{% set master_externalIPs = properties["master_externalIP"] %}
+{% if master_externalIPs and master_externalIPs[0] == "NONE" %}
+{% set tiersWithNoExternalIPCount = tiersWithNoExternalIPCount + 1 %}
+{% endif %}
+{% set master_mainNetwork = path_utils.networkPath(properties["network_network"][0]) %}
+{% set compute_externalIPs = properties["compute_externalIP"] %}
+{% if compute_externalIPs and compute_externalIPs[0] == "NONE" %}
+{% set tiersWithNoExternalIPCount = tiersWithNoExternalIPCount + 1 %}
+{% endif %}
+{% set compute_mainNetwork = path_utils.networkPath(properties["network_network"][0]) %}
+
+resources:
+  - name: submit-tier
+    type: submit_tier.jinja
+    metadata:
+      dependsOn:
+      - master-tier
+    properties:
+      instanceCount: {{ properties["submit_instanceCount"] }}
+      zone: {{ properties["zone"] }}
+      network: {{ properties["network_network"] }}
+      {% if properties.get("network_subnetwork") %}
+      subnetwork: {{ properties["network_subnetwork"] }}
+      {% endif %}
+      {% if properties.get("network_externalIP") %}
+      externalIP: {{ properties["network_externalIP"] }}
+      {% endif %}
+      machineType: {{ properties["submit_machineType"] }}
+      bootDiskType: {{ properties["submit_bootDiskType"] }}
+      bootDiskSizeGb: {{ properties["submit_bootDiskSizeGb"] }}
+      enableStackdriverLogging: {{ properties["enableStackdriverLogging"] }}
+      enableStackdriverMonitoring: {{ properties["enableStackdriverMonitoring"] }}
+      admin: {{ properties["input_adminEmailAddress"] }}
+  - name: master-tier
+    type: master_tier.jinja
+    properties:
+      instanceCount: 1
+      zone: {{ properties["zone"] }}
+      network: {{ properties["network_network"] }}
+      {% if properties.get("network_subnetwork") %}
+      subnetwork: {{ properties["network_subnetwork"] }}
+      {% endif %}
+      {% if properties.get("network_externalIP") %}
+      externalIP: {{ properties["network_externalIP"] }}
+      {% endif %}
+      machineType: {{ properties["master_machineType"] }}
+      bootDiskType: {{ properties["master_bootDiskType"] }}
+      bootDiskSizeGb: {{ properties["master_bootDiskSizeGb"] }}
+      enableStackdriverLogging: {{ properties["enableStackdriverLogging"] }}
+      enableStackdriverMonitoring: {{ properties["enableStackdriverMonitoring"] }}
+      admin: {{ properties["input_adminEmailAddress"] }}
+  - name: compute-tier
+    type: compute_tier.jinja
+    metadata:
+      dependsOn:
+      - master-tier
+    properties:
+      instanceCount: {{ properties["compute_instanceCount"] }}
+      zone: {{ properties["zone"] }}
+      network: {{ properties["network_network"] }}
+      {% if properties.get("network_subnetwork") %}
+      subnetwork: {{ properties["network_subnetwork"] }}
+      {% endif %}
+      {% if properties.get("network_externalIP") %}
+      externalIP: {{ properties["network_externalIP"] }}
+      {% endif %}
+      machineType: {{ properties["compute_machineType"] }}
+      bootDiskType: {{ properties["compute_bootDiskType"] }}
+      bootDiskSizeGb: {{ properties["compute_bootDiskSizeGb"] }}
+      acceleratorType: {{ properties["compute_acceleratorType"] }}
+      acceleratorCount: {{ properties["compute_acceleratorCount"] }}
+      enableStackdriverLogging: {{ properties["enableStackdriverLogging"] }}
+      enableStackdriverMonitoring: {{ properties["enableStackdriverMonitoring"] }}
+      admin: {{ properties["input_adminEmailAddress"] }}
+
+outputs:
+  - name: deployment
+    value: {{ env["deployment"] }}
+  - name: project
+    value: {{ env["project"] }}
+  - name: network_mainNetwork
+    value: {{ network_mainNetwork }}
+  {% for vmIndex in range(properties["submit_instanceCount"]) %}
+  - name: submit_vmId{{ vmIndex }}
+    value: $(ref.submit-tier.vmId{{ vmIndex }})
+  - name: submit_vmExternalIP{{ vmIndex }}
+    value: $(ref.submit-tier.vmExternalIP{{ vmIndex }})
+  - name: submit_vmInternalIP{{ vmIndex }}
+    value: $(ref.submit-tier.vmInternalIP{{ vmIndex }})
+  - name: submit_vmName{{ vmIndex }}
+    value: $(ref.submit-tier.vmName{{ vmIndex }})
+  - name: submit_vmSelfLink{{ vmIndex }}
+    value: $(ref.submit-tier.vmSelfLink{{ vmIndex }})
+  {% endfor %}
+  - name: submit_mainNetwork
+    value: {{ submit_mainNetwork }}
+  {% for vmIndex in range(properties["master_instanceCount"]) %}
+  - name: master_vmId{{ vmIndex }}
+    value: $(ref.master-tier.vmId{{ vmIndex }})
+  - name: master_vmExternalIP{{ vmIndex }}
+    value: $(ref.master-tier.vmExternalIP{{ vmIndex }})
+  - name: master_vmInternalIP{{ vmIndex }}
+    value: $(ref.master-tier.vmInternalIP{{ vmIndex }})
+  - name: master_vmName{{ vmIndex }}
+    value: $(ref.master-tier.vmName{{ vmIndex }})
+  - name: master_vmSelfLink{{ vmIndex }}
+    value: $(ref.master-tier.vmSelfLink{{ vmIndex }})
+  {% endfor %}
+  - name: master_mainNetwork
+    value: {{ master_mainNetwork }}
+  {% for vmIndex in range(properties["compute_instanceCount"]) %}
+  - name: compute_vmId{{ vmIndex }}
+    value: $(ref.compute-tier.vmId{{ vmIndex }})
+  - name: compute_vmExternalIP{{ vmIndex }}
+    value: $(ref.compute-tier.vmExternalIP{{ vmIndex }})
+  - name: compute_vmInternalIP{{ vmIndex }}
+    value: $(ref.compute-tier.vmInternalIP{{ vmIndex }})
+  - name: compute_vmName{{ vmIndex }}
+    value: $(ref.compute-tier.vmName{{ vmIndex }})
+  - name: compute_vmSelfLink{{ vmIndex }}
+    value: $(ref.compute-tier.vmSelfLink{{ vmIndex }})
+  {% endfor %}
+  - name: compute_mainNetwork
+    value: {{ compute_mainNetwork }}
+  - name: tiersWithNoExternalIPStatus
+    {% if tiersWithNoExternalIPCount == 0 %}
+    value: 'NONE'
+    {% elif tiersWithNoExternalIPCount < allTiersCount %}
+    value: 'SOME'
+    {% else %}
+    value: 'ALL'
+    {% endif %}
