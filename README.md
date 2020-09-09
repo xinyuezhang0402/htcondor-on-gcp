@@ -75,16 +75,12 @@ autogen --help
 
 #### Generating the package
 
-The command below creates a deployment package according to the spec in `example-config/solution.yaml`, and then outputs all of the resulting files into `solution_folder`:
+The command below creates a deployment package according to the spec in `example-config/htcondor.prototext`, and then outputs all of the resulting files into `solution_folder`:
 
 ```shell
 mkdir solution_folder
 
-autogen \
-  --input_type YAML \
-  --single_input example-config/solution.yaml \
-  --output_type PACKAGE \
-  --output solution_folder
+autogen --input_type PROTOTEXT --single_input example-config/htcondor.prototext --output_type PACKAGE --output solution_folder
 ```
 
 After the command has completed, you can then compress the `solution_folder` folder, and

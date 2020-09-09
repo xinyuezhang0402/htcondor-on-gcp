@@ -1,0 +1,26 @@
+# Intellij
+.idea
+*.iml
+
+# Build artifacts
+bin
+
+# Copy of licenses and code that need to be distributed in the image
+vendor_dist
+
+# the following rules are copied from
+# https://github.com/github/gitignore/blob/master/Go.gitignore
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
