@@ -122,6 +122,16 @@ runtime:
   deployingMessage: Deployment can take several minutes to complete.
   applicationTable:
     rows:
+      - label: Submit Node Name
+        value: '{{ outputs()["submit_vmName" + 0] }}'
+      - label: Submit Node Machine Type
+        value: '{{ properties().submit_machineType }}'
+      - label: Master Node Name
+        value: '{{ outputs()["master_vmName" + 0] }}'
+      - label: Master Node Machine Type
+        value: '{{ properties().master_machineType }}'
+      - label: Compute Node Machine Type
+        value: '{{ properties().compute_machineType }}'
       - label: Zone
         value: '{{ properties().zone }}'
   suggestedActions:
