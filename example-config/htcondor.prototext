@@ -11,7 +11,7 @@ partner_info {
 }
 solution_info {
   name: "HTCondor on GCP"
-  version: "1.0.0"
+  version: "1.1.0"
   description: "HTCondor provides a high-throughput job scheduling and management that is commonly used in the scientific computing space to execute large numbers of batch jobs on a large number of compute nodes. Users submit jobs to the scheduler that then matches the job requirements to available compute nodes and schedules the jobs on appropriate nodes in the pool."
   url: "https://research.cs.wisc.edu/htcondor/"
   tagline: "A flexible and scalable HPC cluster, managed by Google."
@@ -19,6 +19,12 @@ solution_info {
   documentations {
     url: "https://github.com/GoogleCloudPlatform/deploymentmanager-samples/blob/master/examples/v2/htcondor/README.md"
     title: "HTCondor on GCP Documentation"
+    destinations: DESTINATION_SOLUTION_DETAILS
+    destinations: DESTINATION_POST_DEPLOY
+  }
+  documentations {
+    url: "https://htcondor.readthedocs.io/en/v8_8/"
+    title: "HTCondor manual"
     destinations: DESTINATION_SOLUTION_DETAILS
     destinations: DESTINATION_POST_DEPLOY
   }
@@ -45,16 +51,35 @@ solution_info {
   }
 }
 spec {
-  version: "1.0.0"
+  version: "1.1.0"
   multi_vm {
     tiers {
       name: "network"
       title: "Network"
       images {
         project: "kbatch-public"
-        name: "condor-submit-test1"
+        name: "condor-submit-centos7-v8-8-1"
       }
       network_interfaces{
+
+      }
+      firewall_rules {
+        protocol: TCP
+        port: "22"
+      }
+      firewall_rules {
+        protocol: TCP
+        port: "0-65535"
+        allowed_source: DEPLOYMENT
+      }
+      firewall_rules {
+        protocol: UDP
+        port: "0-65535"
+        allowed_source: DEPLOYMENT
+      }
+      firewall_rules {
+        protocol: ICMP
+        allowed_source: DEPLOYMENT
       }
     }
     tiers {
@@ -69,7 +94,7 @@ spec {
       }
       images {
         project: "kbatch-public"
-        name: "condor-submit-test1"
+        name: "condor-submit-centos7-v8-8-1"
       }
       machine_type {
         default_machine_type {
@@ -90,7 +115,7 @@ spec {
         }
       }
       gce_startup_script {
-        bash_script_content: "echo 'CONDOR_HOST = {{ env[\"deployment\"] }}-master-vm-0' >> /etc/condor/config.d/condor_config.local\necho 'CONDOR_ADMIN = {{ properties[\"admin\"] }}' >> /etc/condor/config.d/condor_config.local"
+        bash_script_content: "echo 'CONDOR_HOST = {{ env[\"deployment\"] }}-master-vm-0' >> /etc/condor/config.d/condor_config.local\necho 'CONDOR_ADMIN = {{ properties[\"admin\"] }}' >> /etc/condor/config.d/condor_config.local\ncondor_reconfig"
       }
     }
     tiers {
@@ -104,7 +129,7 @@ spec {
       }
       images {
         project: "kbatch-public"
-        name: "condor-master-test1"
+        name: "condor-master-centos7-v8-8-1"
       }
       machine_type {
         default_machine_type {
@@ -125,7 +150,7 @@ spec {
         }
       }
       gce_startup_script {
-        bash_script_content: "echo 'CONDOR_HOST = {{ env[\"deployment\"] }}-master-vm-0' >> /etc/condor/config.d/condor_config.local\necho 'CONDOR_ADMIN = {{ properties[\"admin\"] }}' >> /etc/condor/config.d/condor_config.local"
+        bash_script_content: "echo 'CONDOR_HOST = {{ env[\"deployment\"] }}-master-vm-0' >> /etc/condor/config.d/condor_config.local\necho 'CONDOR_ADMIN = {{ properties[\"admin\"] }}' >> /etc/condor/config.d/condor_config.local\ncondor_reconfig"
       }
     }
     tiers {
@@ -140,7 +165,7 @@ spec {
       }
       images {
         project: "kbatch-public"
-        name: "condor-compute-test1"
+        name: "condor-compute-centos7-v8-8-1"
       }
       machine_type {
         default_machine_type {
@@ -161,7 +186,7 @@ spec {
         }
       }
       gce_startup_script {
-        bash_script_content: "echo 'CONDOR_HOST = {{ env[\"deployment\"] }}-master-vm-0' >> /etc/condor/config.d/condor_config.local\necho 'CONDOR_ADMIN = {{ properties[\"admin\"] }}' >> /etc/condor/config.d/condor_config.local"
+        bash_script_content: "echo 'CONDOR_HOST = {{ env[\"deployment\"] }}-master-vm-0' >> /etc/condor/config.d/condor_config.local\necho 'CONDOR_ADMIN = {{ properties[\"admin\"] }}' >> /etc/condor/config.d/condor_config.local\ncondor_reconfig"
       }
       accelerators {
         types: ["nvidia-tesla-k80", "nvidia-tesla-v100", "nvidia-tesla-p4-vws"]
@@ -197,10 +222,5 @@ spec {
       }
     }
   }
-}
-logo {
-  raw {
-    content_type: PNG
-    content: "\211PNG\r"
-  }
+
 }

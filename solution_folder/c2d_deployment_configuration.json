@@ -1,6 +1,6 @@
 {
   "defaultDeploymentType": "MULTI_VM",
-  "imageName": "condor-master-centos7-v8-8-1",
+  "imageName": "condor-submit-centos7-v8-8-1",
   "projectId": "kbatch-public",
   "templateName": "nonexistent_template",
   "useSolutionPackage": true

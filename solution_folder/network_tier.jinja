@@ -8,4 +8,45 @@
 {% set subnetworks = properties["subnetwork"] %}
 {# Software status only works if the VM has an external IP. #}
 {% set enableStatusWaiter = hasExternalIP %}
-resources: []
+resources:
+  - name: {{ env["deployment"] }}-network-tcp-22
+    type: compute.v1.firewall
+    properties:
+      network: {{ networks[0] }}
+      sourceRanges: ["0.0.0.0/0"]
+      allowed:
+        - IPProtocol: TCP
+          ports: ["22"]
+  {% if properties["enableTcp0-65535"] %}
+  - name: {{ env["deployment"] }}-network-tcp-0-65535
+    type: compute.v1.firewall
+    properties:
+      network: {{ networks[0] }}
+      sourceTags:
+      - {{ env["deployment"] }}-deployment
+      allowed:
+        - IPProtocol: TCP
+          ports: ["0-65535"]
+  {% endif %}
+  {% if properties["enableUdp0-65535"] %}
+  - name: {{ env["deployment"] }}-network-udp-0-65535
+    type: compute.v1.firewall
+    properties:
+      network: {{ networks[0] }}
+      sourceTags:
+      - {{ env["deployment"] }}-deployment
+      allowed:
+        - IPProtocol: UDP
+          ports: ["0-65535"]
+  {% endif %}
+  {% if properties["enableIcmp"] %}
+  - name: {{ env["deployment"] }}-icmp
+    type: compute.v1.firewall
+    properties:
+      network: {{ networks[0] }}
+      sourceTags:
+      - {{ env["deployment"] }}-deployment
+      allowed:
+        - IPProtocol: ICMP
+  {% endif %}
+

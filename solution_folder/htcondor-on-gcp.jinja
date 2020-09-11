@@ -24,6 +24,24 @@
 {% set compute_mainNetwork = path_utils.networkPath(properties["network_network"][0]) %}
 
 resources:
+  - name: network-tier
+    type: network_tier.jinja
+    properties:
+      zone: {{ properties["zone"] }}
+      network: {{ properties["network_network"] }}
+      {% if properties.get("network_subnetwork") %}
+      subnetwork: {{ properties["network_subnetwork"] }}
+      {% endif %}
+      {% if properties.get("network_externalIP") %}
+      externalIP: {{ properties["network_externalIP"] }}
+      {% endif %}
+      enableTcp22: {{ properties["network_enableTcp22"] }}
+      {% if properties.get("network_tcp22SourceRanges") %}
+      tcp22SourceRanges: {{ properties["network_tcp22SourceRanges"] }}
+      {% endif %}
+      enableTcp0-65535: {{ properties["network_enableTcp0-65535"] }}
+      enableUdp0-65535: {{ properties["network_enableUdp0-65535"] }}
+      enableIcmp: {{ properties["network_enableIcmp"] }}
   - name: submit-tier
     type: submit_tier.jinja
     metadata:
@@ -85,7 +103,6 @@ resources:
       acceleratorCount: {{ properties["compute_acceleratorCount"] }}
       enableStackdriverLogging: {{ properties["enableStackdriverLogging"] }}
       enableStackdriverMonitoring: {{ properties["enableStackdriverMonitoring"] }}
-      admin: {{ properties["input_adminEmailAddress"] }}
 
 outputs:
   - name: deployment

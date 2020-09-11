@@ -5,7 +5,7 @@ imports:
   - path: compute_tier.jinja
 
 info:
-  version: 1.0.0
+  version: 1.1.0
   title: HTCondor on GCP Template
 
 required:
@@ -58,7 +58,40 @@ properties:
         networkProperty: network_network
         notConfigurable: False
         allowStaticIps: True
-
+  network_enableTcp22:
+    type: boolean
+    default: True
+    x-googleProperty:
+      type: GCE_FIREWALL
+      gceFirewall:
+        networkProperty: network_network
+  network_tcp22SourceRanges:
+    type: string
+    x-googleProperty:
+      type: GCE_FIREWALL_RANGE
+      gceFirewallRange:
+        firewallProperty: network_enableTcp22
+  network_enableTcp0-65535:
+    type: boolean
+    default: True
+    x-googleProperty:
+      type: GCE_FIREWALL
+      gceFirewall:
+        networkProperty: network_network
+  network_enableUdp0-65535:
+    type: boolean
+    default: True
+    x-googleProperty:
+      type: GCE_FIREWALL
+      gceFirewall:
+        networkProperty: network_network
+  network_enableIcmp:
+    type: boolean
+    default: True
+    x-googleProperty:
+      type: GCE_FIREWALL
+      gceFirewall:
+        networkProperty: network_network
   submit_instanceCount:
     type: integer
     default: 1
