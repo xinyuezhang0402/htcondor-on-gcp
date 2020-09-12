@@ -5,6 +5,7 @@ description:
     shortDescription: Popular open stacks on Google Compute Engine packaged by Google.
     url: https://cloud.google.com/solutions/#click-to-deploy
   descriptionHtml: HTCondor provides a high-throughput job scheduling and management that is commonly used in the scientific computing space to execute large numbers of batch jobs on a large number of compute nodes. Users submit jobs to the scheduler that then matches the job requirements to available compute nodes and schedules the jobs on appropriate nodes in the pool.
+  logo: '@media/htcondor-on-gcp_store.png'
   tagline: A flexible and scalable HPC cluster, managed by Google.
   title: HTCondor on GCP
   url: https://research.cs.wisc.edu/htcondor/
@@ -161,73 +162,6 @@ runtime:
     - heading: No external IP configured on some tiers
       description: 'Some VM instances have been configured with no external IP or internet access. Connecting to them directly may not be possible. Consider using a <a href="https://cloud.google.com/compute/docs/instances/connecting-advanced#bastion_host">bastion host</a> to access these VMs.'
       showIf: "{{ outputs().tiersWithNoExternalIPStatus == 'SOME' }}"
-    - heading: Open TCP port 22 traffic for Network
-      description: >-
-        This firewall rule is not enabled.
-        To allow specific network traffic from the Internet,
-        create a firewall rule to open TCP port 22 traffic
-        for target tag "{{ outputs().deployment }}-network-tier".
-        <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br>
-        If you are using Google Cloud SDK, type the following command in
-        the terminal:
-      snippet: >-
-        gcloud --project={{ outputs().project }} compute firewall-rules
-        create "{{ outputs().deployment }}-network-tcp-22"
-        --network {{ outputs().network_mainNetwork }}
-        --allow tcp:22
-        --target-tags "{{ outputs().deployment }}-network-tier"
-      showIf: '{{ !properties().network_enableTcp22 }}'
-    - heading: Open TCP port 0-65535 traffic for Network
-      description: >-
-        This firewall rule is not enabled.
-        To allow specific network traffic from other VMs in this deployment,
-        create a firewall rule to open TCP port 0-65535 traffic
-        for target tag "{{ outputs().deployment }}-network-tier".
-        <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br>
-        If you are using Google Cloud SDK, type the following command in
-        the terminal:
-      snippet: >-
-        gcloud --project={{ outputs().project }} compute firewall-rules
-        create "{{ outputs().deployment }}-network-tcp-0-65535"
-        --network {{ outputs().network_mainNetwork }}
-        --allow tcp:0-65535
-        --source-tags "{{ outputs().deployment }}-deployment"
-        --target-tags "{{ outputs().deployment }}-network-tier"
-      showIf: '{{ !properties().network_enableTcp0-65535 }}'
-    - heading: Open UDP port 0-65535 traffic for Network
-      description: >-
-        This firewall rule is not enabled.
-        To allow specific network traffic from other VMs in this deployment,
-        create a firewall rule to open UDP port 0-65535 traffic
-        for target tag "{{ outputs().deployment }}-network-tier".
-        <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br>
-        If you are using Google Cloud SDK, type the following command in
-        the terminal:
-      snippet: >-
-        gcloud --project={{ outputs().project }} compute firewall-rules
-        create "{{ outputs().deployment }}-network-udp-0-65535"
-        --network {{ outputs().network_mainNetwork }}
-        --allow udp:0-65535
-        --source-tags "{{ outputs().deployment }}-deployment"
-        --target-tags "{{ outputs().deployment }}-network-tier"
-      showIf: '{{ !properties().network_enableUdp0-65535 }}'
-    - heading: Open ICMP traffic for Network
-      description: >-
-        This firewall rule is not enabled.
-        To allow specific network traffic from other VMs in this deployment,
-        create a firewall rule to open ICMP traffic
-        for target tag "{{ outputs().deployment }}-network-tier".
-        <a href="https://cloud.google.com/compute/docs/networking">Learn more</a><br>
-        If you are using Google Cloud SDK, type the following command in
-        the terminal:
-      snippet: >-
-        gcloud --project={{ outputs().project }} compute firewall-rules
-        create "{{ outputs().deployment }}-icmp"
-        --network {{ outputs().network_mainNetwork }}
-        --allow icmp
-        --source-tags "{{ outputs().deployment }}-deployment"
-        --target-tags "{{ outputs().deployment }}-network-tier"
-      showIf: '{{ !properties().network_enableIcmp }}'
 
 annotations:
   autogenSpecType: 'MULTI_VM'
