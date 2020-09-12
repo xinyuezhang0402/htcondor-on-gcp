@@ -1,12 +1,12 @@
 description:
   author:
-    title: Google Click to Deploy
-    descriptionHtml: Popular open stacks on Google Compute Engine packaged by Google.
-    shortDescription: Popular open stacks on Google Compute Engine packaged by Google.
-    url: https://cloud.google.com/solutions/#click-to-deploy
+    title: CHTC
+    descriptionHtml: Center for High-Throughput Computing at the University of Wisconsin.
+    shortDescription: Center for High-Throughput Computing at the University of Wisconsin.
+    url: http://chtc.cs.wisc.edu/
   descriptionHtml: HTCondor provides a high-throughput job scheduling and management that is commonly used in the scientific computing space to execute large numbers of batch jobs on a large number of compute nodes. Users submit jobs to the scheduler that then matches the job requirements to available compute nodes and schedules the jobs on appropriate nodes in the pool.
   logo: '@media/htcondor-on-gcp_store.png'
-  tagline: A flexible and scalable HPC cluster, managed by Google.
+  tagline: A flexible and scalable HPC cluster.
   title: HTCondor on GCP
   url: https://research.cs.wisc.edu/htcondor/
   version: 1.1.0
