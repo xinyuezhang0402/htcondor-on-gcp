@@ -17,7 +17,6 @@ resources:
       allowed:
         - IPProtocol: TCP
           ports: ["22"]
-  {% if properties["enableTcp0-65535"] %}
   - name: {{ env["deployment"] }}-network-tcp-0-65535
     type: compute.v1.firewall
     properties:
@@ -27,8 +26,6 @@ resources:
       allowed:
         - IPProtocol: TCP
           ports: ["0-65535"]
-  {% endif %}
-  {% if properties["enableUdp0-65535"] %}
   - name: {{ env["deployment"] }}-network-udp-0-65535
     type: compute.v1.firewall
     properties:
@@ -38,8 +35,6 @@ resources:
       allowed:
         - IPProtocol: UDP
           ports: ["0-65535"]
-  {% endif %}
-  {% if properties["enableIcmp"] %}
   - name: {{ env["deployment"] }}-icmp
     type: compute.v1.firewall
     properties:
@@ -48,5 +43,4 @@ resources:
       - {{ env["deployment"] }}-deployment
       allowed:
         - IPProtocol: ICMP
-  {% endif %}
 

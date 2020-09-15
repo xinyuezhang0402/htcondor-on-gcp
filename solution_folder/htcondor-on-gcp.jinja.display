@@ -52,23 +52,7 @@ input:
       title: External IP
       tooltip: 'An external IP address associated with this instance. Selecting "None" will result in the instance having no external internet access. <a href="https://cloud.google.com/compute/docs/configure-instance-ip-addresses">Learn more</a>'
       section: NETWORK_TIER
-    - name: network_enableTcp22
-      title: Allow TCP port 22 traffic from the Internet
-      section: NETWORK_TIER
-    - name: network_tcp22SourceRanges
-      title: Source IP ranges for TCP port 22 traffic
-      tooltip: 'Traffic is only allowed from sources within these IP address ranges. Use CIDR notation when entering ranges. <a href="https://cloud.google.com/compute/docs/networking#firewalls">Learn more</a>'
-      placeholder: '0.0.0.0/0'
-      section: NETWORK_TIER
-    - name: network_enableTcp0-65535
-      title: Allow TCP port 0-65535 traffic from other VMs in this deployment
-      section: NETWORK_TIER
-    - name: network_enableUdp0-65535
-      title: Allow UDP port 0-65535 traffic from other VMs in this deployment
-      section: NETWORK_TIER
-    - name: network_enableIcmp
-      title: Allow ICMP traffic from other VMs in this deployment
-      section: NETWORK_TIER
+
     - name: submit_instanceCount
       title: Instance Count
       tooltip: Specify a value between 1 and 5.
@@ -155,6 +139,10 @@ runtime:
         value: '{{ properties().compute_machineType }}'
       - label: Zone
         value: '{{ properties().zone }}'
+  primaryButton:
+      label: SSH to Condor Submit Node
+      type: TYPE_GCE_VM_SSH
+      action: '{{ outputs()["submit_vmSelfLink" + 0] }}'
   suggestedActions:
     - heading: No external IP configured on any tier
       description: 'All VM instances have been configured with no external IP or internet access. Connecting to them directly may not be possible. Consider using a <a href="https://cloud.google.com/compute/docs/instances/connecting-advanced#bastion_host">bastion host</a> to access these VMs.'

@@ -37,37 +37,3 @@ properties:
       zoneProperty: zone
       gceSubnetwork:
         networkProperty: network
-  enableTcp22:
-    type: boolean
-    default: True
-    x-googleProperty:
-      type: GCE_FIREWALL
-      gceFirewall:
-        networkProperty: network
-  tcp22SourceRanges:
-    type: string
-    x-googleProperty:
-      type: GCE_FIREWALL_RANGE
-      gceFirewallRange:
-        firewallProperty: enableTcp22
-  enableTcp0-65535:
-    type: boolean
-    default: True
-    x-googleProperty:
-      type: GCE_FIREWALL
-      gceFirewall:
-        networkProperty: network
-  enableUdp0-65535:
-    type: boolean
-    default: True
-    x-googleProperty:
-      type: GCE_FIREWALL
-      gceFirewall:
-        networkProperty: network
-  enableIcmp:
-    type: boolean
-    default: True
-    x-googleProperty:
-      type: GCE_FIREWALL
-      gceFirewall:
-        networkProperty: network
