@@ -9,7 +9,7 @@ description:
   tagline: A flexible and scalable HPC cluster.
   title: HTCondor on GCP
   url: https://research.cs.wisc.edu/htcondor/
-  version: 1.1.0
+  version: 1.2.0
   softwareGroups:
   - type: SOFTWARE_GROUP_OS
     software:
@@ -82,7 +82,7 @@ input:
 
     - name: compute_instanceCount
       title: Instance Count
-      tooltip: Specify a value between 1 and 20.
+      tooltip: Specify a value between 1 and 1000.
       section: COMPUTE_TIER
     - name: compute_machineType
       title: Machine type
