@@ -143,7 +143,7 @@ properties:
     type: integer
     default: 1
     minimum: 1
-    maximum: 20
+    maximum: 1000
   compute_machineType:
     type: string
     default: n1-standard-4
