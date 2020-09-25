@@ -99,8 +99,8 @@ properties:
       zoneProperty: zone
   login_bootDiskSizeGb:
     type: integer
-    default: 15
-    minimum: 15
+    default: 20
+    minimum: 20
     maximum: 10000
     x-googleProperty:
       type: GCE_DISK_SIZE
@@ -135,8 +135,8 @@ properties:
       zoneProperty: zone
   controller_bootDiskSizeGb:
     type: integer
-    default: 15
-    minimum: 15
+    default: 20
+    minimum: 20
     maximum: 10000
     x-googleProperty:
       type: GCE_DISK_SIZE
@@ -189,8 +189,8 @@ properties:
       zoneProperty: zone
   compute_bootDiskSizeGb:
     type: integer
-    default: 15
-    minimum: 15
+    default: 20
+    minimum: 20
     maximum: 10000
     x-googleProperty:
       type: GCE_DISK_SIZE

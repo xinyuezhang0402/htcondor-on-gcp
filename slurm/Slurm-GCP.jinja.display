@@ -2,31 +2,26 @@ description:
   author:
     title: Fluid Numerics LLC
     descriptionHtml: >
-      Fluid Numerics is a Boulder, CO based team with backgrounds in Scientific
-      & High Performance Computing and Cloud-HPC solutions design & engineering.
-      We strive to deliver highly flexible and scalable cloud solutions to meet
-      the compute demands to accelerate research and time-to-science.
-      https://www.fluidnumerics.com
+      Fluid Numerics is a high caliber team with backgrounds in High Performance
+      Computing, both application development and system administration, cloud
+      architecting and engineering, software acceleration, GPU programming, and
+      geophysical sciences. Learn more at https://www.fluidnumerics.com
     shortDescription: 'This is a short partner description, with at most 300 characters'
     url: 'https://www.fluidnumerics.com'
   descriptionHtml: >-
-    Fluid Numerics' Slurm-GCP (fluid-slurm-gcp) is a scalable imaged-based HPC
-    cluster powered  by the Slurm job scheduler and Google Cloud Platform. The
-    Fluid-Slurm-GCP deployment delivers the look-and-feel of a traditional HPC
-    environment with login nodes for user access, a controller node to host the
-    Slurm Job Scheduler, the ability to mount remote NFS & Lustre filesystems
-    and GCS Buckets, and elastic compute nodes that are created on-demand. Fluid
-    Numerics has developed and provided the cluster-services CLI to help you
-    easily customize your compute partitions and spread your workloads across
-    Google Datacenters worldwide. Newer features of the Fluid-Slurm-GCP cluster
-    include the ability to use CloudSQL to host the Slurm database and natural
-    integrations with GSuite's SMTP Email Relay so that you can be notified via
-    email when jobs complete.
+    Fluid Numerics' Slurm-GCP (fluid-slurm-gcp) is a scalable HPC cluster
+    powered  by the Slurm job scheduler and Google Cloud Platform. The
+    deployment provides a  login node, controller node, static compute nodes,
+    and the ability to create  ephemeral compute nodes on demand. Fluid
+    Numerics' Slurm-GCP comes with an  additional tool (cluster-services) for
+    managing users, compute partitions, network attached storage resources, and
+    for building out more complex HPC cluster arrangements on Google Cloud
+    Platform.
   logo: '@media/Slurm-GCP_store.png'
   tagline: A flexible and scalable HPC cluster powered by Slurm and GCP.
   title: Fluid-Slurm-GCP
   url: 'https://help.fluidnumerics.com/slurm-gcp'
-  version: 2.4.0
+  version: 2.5.0
   eulaUrl: 'https://help.fluidnumerics.com/slurm-gcp/eula'
   softwareGroups:
     - type: SOFTWARE_GROUP_OS
@@ -50,7 +45,7 @@ description:
         - title: Environment Modules
           url: 'https://github.com/cea-hpc/modules'
         - title: Nvidia GPU Drivers
-          version: '10.1'
+          version: '11.1'
   documentations:
     - title: Getting Started
       url: 'https://fluid-slurm-gcp-codelabs.web.app/create-a-hpc-cluster-on-gcp/'

@@ -26,7 +26,7 @@ resources:
     type: vm_instance.py
     properties:
       instanceName: {{ properties["name"] }}-{{ '%d' % vmIndex }}
-      sourceImage: https://www.googleapis.com/compute/v1/projects/fluid-cluster-ops/global/images/fluid-slurm-gcp-compute-centos-v2-4-0
+      sourceImage: https://www.googleapis.com/compute/v1/projects/fluid-cluster-ops/global/images/fluid-slurm-gcp-compute-centos-v2-5-0
       zone: {{ zone }}
       machineType: {{ machineType }}
       networks:
