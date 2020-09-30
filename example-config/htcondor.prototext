@@ -11,7 +11,7 @@ partner_info {
 }
 solution_info {
   name: "HTCondor on GCP"
-  version: "1.2.0"
+  version: "2.0.0"
   description: "HTCondor provides a high-throughput job scheduling and management that is commonly used in the scientific computing space to execute large numbers of batch jobs on a large number of compute nodes. Users submit jobs to the scheduler that then matches the job requirements to available compute nodes and schedules the jobs on appropriate nodes in the pool."
   url: "https://research.cs.wisc.edu/htcondor/"
   tagline: "A flexible and scalable HPC cluster."
@@ -51,7 +51,7 @@ solution_info {
   }
 }
 spec {
-  version: "1.2.0"
+  version: "2.0.0"
   multi_vm {
     tiers {
       name: "network"
