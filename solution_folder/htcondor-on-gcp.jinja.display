@@ -80,10 +80,6 @@ input:
       title: Boot disk size in GB
       section: MASTER_TIER
 
-    - name: compute_instanceCount
-      title: Instance Count
-      tooltip: Specify a value between 1 and 1000.
-      section: COMPUTE_TIER
     - name: compute_machineType
       title: Machine type
       section: COMPUTE_TIER
@@ -118,7 +114,7 @@ input:
     - name: MASTER_TIER
       title: Condor Master
     - name: COMPUTE_TIER
-      title: Condor Compute
+      title: Condor Compute Instance Template
     - name: STACKDRIVER
       title: Stackdriver
       subtext: Monitoring and management for services, containers, applications, and infrastructure

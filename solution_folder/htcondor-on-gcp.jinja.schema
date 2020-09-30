@@ -18,7 +18,6 @@ required:
   - master_machineType
   - master_bootDiskType
   - master_bootDiskSizeGb
-  - compute_instanceCount
   - compute_machineType
   - compute_bootDiskType
   - compute_bootDiskSizeGb
@@ -27,6 +26,7 @@ required:
 properties:
   zone:
     type: string
+    default: us-central1-f
     x-googleProperty:
       type: GCE_ZONE
   network_network:
@@ -139,11 +139,6 @@ properties:
       gceDiskSize:
         diskTypeProperty: master_bootDiskType
 
-  compute_instanceCount:
-    type: integer
-    default: 1
-    minimum: 1
-    maximum: 1000
   compute_machineType:
     type: string
     default: n1-standard-4

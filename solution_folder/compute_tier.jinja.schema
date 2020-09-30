@@ -11,19 +11,12 @@ imports:
     path: common/vm_instance.py
 
 required:
-  - instanceCount
   - zone
   - machineType
   - network
-  - bootDiskType
-  - bootDiskSizeGb
+
 
 properties:
-  instanceCount:
-    type: integer
-    default: 1
-    minimum: 1
-    maximum: 1000
   zone:
     type: string
     x-googleProperty:

@@ -80,7 +80,6 @@ resources:
       dependsOn:
       - master-tier
     properties:
-      instanceCount: {{ properties["compute_instanceCount"] }}
       zone: {{ properties["zone"] }}
       network: {{ properties["network_network"] }}
       {% if properties.get("network_subnetwork") %}
@@ -96,6 +95,7 @@ resources:
       acceleratorCount: {{ properties["compute_acceleratorCount"] }}
       enableStackdriverLogging: {{ properties["enableStackdriverLogging"] }}
       enableStackdriverMonitoring: {{ properties["enableStackdriverMonitoring"] }}
+      admin: {{ properties["input_adminEmailAddress"] }}
 
 outputs:
   - name: deployment
@@ -132,20 +132,6 @@ outputs:
   {% endfor %}
   - name: master_mainNetwork
     value: {{ master_mainNetwork }}
-  {% for vmIndex in range(properties["compute_instanceCount"]) %}
-  - name: compute_vmId{{ vmIndex }}
-    value: $(ref.compute-tier.vmId{{ vmIndex }})
-  - name: compute_vmExternalIP{{ vmIndex }}
-    value: $(ref.compute-tier.vmExternalIP{{ vmIndex }})
-  - name: compute_vmInternalIP{{ vmIndex }}
-    value: $(ref.compute-tier.vmInternalIP{{ vmIndex }})
-  - name: compute_vmName{{ vmIndex }}
-    value: $(ref.compute-tier.vmName{{ vmIndex }})
-  - name: compute_vmSelfLink{{ vmIndex }}
-    value: $(ref.compute-tier.vmSelfLink{{ vmIndex }})
-  {% endfor %}
-  - name: compute_mainNetwork
-    value: {{ compute_mainNetwork }}
   - name: tiersWithNoExternalIPStatus
     {% if tiersWithNoExternalIPCount == 0 %}
     value: 'NONE'
