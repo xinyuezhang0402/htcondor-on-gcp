@@ -21,6 +21,7 @@ required:
   - compute_machineType
   - compute_bootDiskType
   - compute_bootDiskSizeGb
+  - compute_preemptible
   - input_adminEmailAddress
 
 properties:
@@ -192,6 +193,9 @@ properties:
       type: GCE_DISK_SIZE
       gceDiskSize:
         diskTypeProperty: compute_bootDiskType
+  compute_preemptible:
+    type: boolean
+    default: true
   input_adminEmailAddress:
     type: string
     default: someone@example.com

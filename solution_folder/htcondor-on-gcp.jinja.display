@@ -83,6 +83,10 @@ input:
     - name: compute_machineType
       title: Machine type
       section: COMPUTE_TIER
+    - name: compute_preemptible
+      title: Preemptiblity
+      tooltip: A preemptible VM costs much less, but lasts only 24 hours. It can be terminated sooner due to system demands.
+      section: COMPUTE_TIER
     - name: compute_acceleratorType
       title: GPUs
       section: COMPUTE_TIER
@@ -92,6 +96,7 @@ input:
     - name: compute_bootDiskSizeGb
       title: Boot disk size in GB
       section: COMPUTE_TIER
+
 
     - name: input_adminEmailAddress
       title: Administrator e-mail address

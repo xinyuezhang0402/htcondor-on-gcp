@@ -93,6 +93,7 @@ resources:
       bootDiskSizeGb: {{ properties["compute_bootDiskSizeGb"] }}
       acceleratorType: {{ properties["compute_acceleratorType"] }}
       acceleratorCount: {{ properties["compute_acceleratorCount"] }}
+      preemptible: {{ properties["compute_preemptible"] }}
       enableStackdriverLogging: {{ properties["enableStackdriverLogging"] }}
       enableStackdriverMonitoring: {{ properties["enableStackdriverMonitoring"] }}
       admin: {{ properties["input_adminEmailAddress"] }}

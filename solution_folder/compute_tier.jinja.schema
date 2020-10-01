@@ -14,6 +14,7 @@ required:
   - zone
   - machineType
   - network
+  - preemptible
 
 
 properties:
@@ -93,6 +94,9 @@ properties:
       type: GCE_DISK_SIZE
       gceDiskSize:
         diskTypeProperty: bootDiskType
+  preemptible:
+    type: boolean
+    default: true
   enableStackdriverLogging:
     type: boolean
     default: False
