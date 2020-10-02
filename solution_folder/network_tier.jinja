@@ -14,6 +14,8 @@ resources:
     properties:
       network: {{ networks[0] }}
       sourceRanges: ["0.0.0.0/0"]
+      sourceTags:
+      - {{ env["deployment"] }}-deployment
       allowed:
         - IPProtocol: TCP
           ports: ["22"]

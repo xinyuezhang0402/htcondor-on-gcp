@@ -29,7 +29,7 @@ resources:
     type: vm_instance.py
     properties:
       instanceName: {{ env["deployment"] }}-submit-vm-{{ vmIndex }}
-      sourceImage: https://www.googleapis.com/compute/v1/projects/kbatch-public/global/images/condor-submit-test
+      sourceImage: https://www.googleapis.com/compute/v1/projects/kbatch-public/global/images/condor-submit-v2-0-0
       zone: {{ zone }}
       machineType: {{ machineType }}
       networks:
