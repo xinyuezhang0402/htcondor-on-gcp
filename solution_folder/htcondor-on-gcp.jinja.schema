@@ -5,7 +5,7 @@ imports:
   - path: compute_tier.jinja
 
 info:
-  version: 2.0.0
+  version: 2.0.1
   title: HTCondor on GCP Template
 
 required:
@@ -186,8 +186,8 @@ properties:
       zoneProperty: zone
   compute_bootDiskSizeGb:
     type: integer
-    default: 20
-    minimum: 20
+    default: 30
+    minimum: 30
     maximum: 10000
     x-googleProperty:
       type: GCE_DISK_SIZE

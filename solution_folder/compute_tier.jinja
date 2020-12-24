@@ -33,9 +33,14 @@ resources:
           boot: true
           autoDelete: true
           initializeParams:
-            sourceImage: https://www.googleapis.com/compute/v1/projects/kbatch-public/global/images/condor-compute-v2-0-0
+            sourceImage: https://www.googleapis.com/compute/v1/projects/kbatch-public/global/images/condor-compute-v2-0-1
+            diskSizeGb: {{ bootDiskSizeGb }}
+            diskType: {{ bootDiskType }}
         networkInterfaces:
-        - network: {{ networks[0] }}
+        - network: global/networks/default
+          accessConfigs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
         {% if acceleratorCount > 0 %}
         guestAccelerators:
           - acceleratorType: {{ acceleratorType }}
@@ -59,6 +64,10 @@ resources:
                 echo 'CONDOR_HOST = {{ env["deployment"] }}-master-vm-0' >> /etc/condor/config.d/condor_config.local
                 echo 'CONDOR_ADMIN = {{ properties["admin"] }}' >> /etc/condor/config.d/condor_config.local
                 echo 'use feature : GPUs' >> /etc/condor/config.d/condor_config.local
+                usermod -aG docker condor
+                systemctl start docker
+                systemctl enable docker
+                chmod 666 /var/run/docker.sock
                 condor_reconfig
             - key: google-logging-enable
               value: {{ enableStackdriverLogging }}
@@ -71,7 +80,7 @@ resources:
   - name: {{ env["deployment"] }}-compute-igm
     type: compute.v1.instanceGroupManagers
     properties:
-      baseInstanceName: {{ env["deployment"] }}-compute-vm
+      baseInstanceName: compute
       instanceTemplate: $(ref.{{ env["deployment"] }}-compute-vm-tmpl.selfLink)
       targetSize: 0
       zone: {{ properties["zone"] }}

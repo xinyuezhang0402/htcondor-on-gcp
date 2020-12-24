@@ -9,7 +9,7 @@ description:
   tagline: A flexible and scalable HPC cluster.
   title: HTCondor on GCP
   url: https://research.cs.wisc.edu/htcondor/
-  version: 2.0.0
+  version: 2.0.1
   softwareGroups:
   - type: SOFTWARE_GROUP_OS
     software:

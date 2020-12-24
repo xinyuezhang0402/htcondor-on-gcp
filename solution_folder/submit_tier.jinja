@@ -67,6 +67,10 @@ resources:
               #!/bin/bash
               echo 'CONDOR_HOST = {{ env["deployment"] }}-master-vm-0' >> /etc/condor/config.d/condor_config.local
               echo 'CONDOR_ADMIN = {{ properties["admin"] }}' >> /etc/condor/config.d/condor_config.local
+              echo 'SINGULARITY_JOB = !isUndefined(TARGET.SingularityImage)' >> /etc/condor/config.d/condor_config.local
+              echo 'SINGULARITY_IMAGE_EXPR = TARGET.SingularityImage' >> /etc/condor/config.d/condor_config.local
+              systemctl start docker
+              chmod 666 /var/run/docker.sock
               condor_reconfig
               if ! grep -q "autoscaler" /etc/crontab; then
                   sudo echo '* * * * * root /usr/bin/python /usr/local/autoscaler/autoscaler.py --project_id {{ env["project"] }} --region {{ region }} --zone {{ zone }} --group_manager {{env["deployment"] }}-compute-igm --verbosity 1 >> /tmp/cron.log 2>&1' >> /etc/crontab
